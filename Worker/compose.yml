@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  queue:
+    image: rabbitmq:management
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  provider:
+    build: ./provider
+    deploy:
+      replicas: 1
+    restart: always
+    depends_on:
+      queue:
+        condition: service_healthy
+    environment:
+      - QUEUE_HOST=queue
+  consumer:
+    build: ./consumer
+    deploy:
+      replicas: 3
+    restart: always
+    depends_on:
+      queue:
+        condition: service_healthy
+    environment:
+      - QUEUE_HOST=queue
