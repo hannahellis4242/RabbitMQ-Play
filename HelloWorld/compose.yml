@@ -7,7 +7,7 @@ services:
       - "5672:5672"
       - "15672:15672"
   provider:
-    build: ./producer
+    build: ./provider
     deploy:
       replicas: 1
     restart: always
