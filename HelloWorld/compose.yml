@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   queue:
@@ -6,3 +6,12 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  provider:
+    build: ./producer
+    deploy:
+      replicas: 1
+    restart: always
+    depends_on:
+      - queue
+    environment:
+      - QUEUE_HOST=queue
