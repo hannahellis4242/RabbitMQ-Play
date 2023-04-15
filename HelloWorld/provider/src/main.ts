@@ -6,7 +6,7 @@ const queue = "my-queue";
 
 const randomNumber = async (channel: Channel) => {
   const i = Math.random() * 100;
-  const result = channel.sendToQueue(queue, Buffer.from(`${i + 1}`));
+  const result = channel.sendToQueue(queue, Buffer.from(`${i}`));
   if (!result) {
     console.log("send to queue returned false");
   } else {
